@@ -16,7 +16,7 @@ class FlashPlugin(object):
         self.app.add_hook('after_request', self.set_flashed)
         self.app.flash = self.flash
         self.app.get_flashed_messages = self.get_flashed_messages
-        
+
     def load_flashed(self):
         m = request.get_cookie(key=self.key, secret=self.secret)
         if m is not None:
@@ -25,7 +25,7 @@ class FlashPlugin(object):
     def set_flashed(self):
         if hasattr(response, 'flash_messages'):
             flash_messages_json = json.dumps(response.flash_messages)
-            response.set_cookie(self.key, flash_messages_json, self.secret)
+            response.set_cookie(name=self.key, value=flash_messages_json, secret=self.secret)
             delattr(response, 'flash_messages')
 
     def flash(self, message, level=None):
